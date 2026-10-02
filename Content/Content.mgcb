@@ -21,33 +21,455 @@
 /processorParam:Version=3.8.5.1
 /build:arial.spritefont
 
-#begin EvilWizard.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
+#begin DungeonMusic/Goblins_Dance_(Battle).mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
 /processorParam:Version=3.8.5.1
-/build:EvilWizard.png
+/build:DungeonMusic/Goblins_Dance_(Battle).mp3
 
-#begin FireballSheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
+#begin DungeonMusic/Goblins_Den_(Regular).mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
 /processorParam:Version=3.8.5.1
-/build:FireballSheet.png
+/build:DungeonMusic/Goblins_Den_(Regular).mp3
 
-#begin Wizard.png
+#begin DungeonSFX/01_chest_open_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/01_chest_open_1.wav
+
+#begin DungeonSFX/01_chest_open_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/01_chest_open_2.wav
+
+#begin DungeonSFX/01_chest_open_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/01_chest_open_3.wav
+
+#begin DungeonSFX/01_chest_open_4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/01_chest_open_4.wav
+
+#begin DungeonSFX/02_chest_close_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/02_chest_close_1.wav
+
+#begin DungeonSFX/02_chest_close_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/02_chest_close_2.wav
+
+#begin DungeonSFX/02_chest_close_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/02_chest_close_3.wav
+
+#begin DungeonSFX/03_crate_open_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/03_crate_open_1.wav
+
+#begin DungeonSFX/03_crate_open_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/03_crate_open_2.wav
+
+#begin DungeonSFX/03_crate_open_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/03_crate_open_3.wav
+
+#begin DungeonSFX/04_sack_open_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/04_sack_open_1.wav
+
+#begin DungeonSFX/04_sack_open_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/04_sack_open_2.wav
+
+#begin DungeonSFX/04_sack_open_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/04_sack_open_3.wav
+
+#begin DungeonSFX/05_door_open_1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/05_door_open_1.mp3
+
+#begin DungeonSFX/05_door_open_2.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/05_door_open_2.mp3
+
+#begin DungeonSFX/06_door_close_1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/06_door_close_1.mp3
+
+#begin DungeonSFX/06_door_close_2.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/06_door_close_2.mp3
+
+#begin DungeonSFX/07_human_atk_sword_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/07_human_atk_sword_1.wav
+
+#begin DungeonSFX/07_human_atk_sword_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/07_human_atk_sword_2.wav
+
+#begin DungeonSFX/07_human_atk_sword_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/07_human_atk_sword_3.wav
+
+#begin DungeonSFX/08_human_charge_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/08_human_charge_1.wav
+
+#begin DungeonSFX/08_human_charge_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/08_human_charge_2.wav
+
+#begin DungeonSFX/09_human_charging_1_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/09_human_charging_1_loop.wav
+
+#begin DungeonSFX/09_human_charging_2_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/09_human_charging_2_loop.wav
+
+#begin DungeonSFX/10_human_special_atk_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/10_human_special_atk_1.wav
+
+#begin DungeonSFX/10_human_special_atk_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/10_human_special_atk_2.wav
+
+#begin DungeonSFX/11_human_damage_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/11_human_damage_1.wav
+
+#begin DungeonSFX/11_human_damage_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/11_human_damage_2.wav
+
+#begin DungeonSFX/11_human_damage_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/11_human_damage_3.wav
+
+#begin DungeonSFX/12_human_jump_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/12_human_jump_1.wav
+
+#begin DungeonSFX/12_human_jump_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/12_human_jump_2.wav
+
+#begin DungeonSFX/12_human_jump_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/12_human_jump_3.wav
+
+#begin DungeonSFX/13_human_jump_land_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/13_human_jump_land_1.wav
+
+#begin DungeonSFX/13_human_jump_land_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/13_human_jump_land_2.wav
+
+#begin DungeonSFX/14_human_death_spin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/14_human_death_spin.wav
+
+#begin DungeonSFX/15_human_dash_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/15_human_dash_1.wav
+
+#begin DungeonSFX/15_human_dash_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/15_human_dash_2.wav
+
+#begin DungeonSFX/16_human_walk_stone_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/16_human_walk_stone_1.wav
+
+#begin DungeonSFX/16_human_walk_stone_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/16_human_walk_stone_2.wav
+
+#begin DungeonSFX/16_human_walk_stone_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/16_human_walk_stone_3.wav
+
+#begin DungeonSFX/17_orc_atk_sword_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/17_orc_atk_sword_1.wav
+
+#begin DungeonSFX/17_orc_atk_sword_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/17_orc_atk_sword_2.wav
+
+#begin DungeonSFX/17_orc_atk_sword_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/17_orc_atk_sword_3.wav
+
+#begin DungeonSFX/18_orc_charge.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/18_orc_charge.wav
+
+#begin DungeonSFX/19_orc_charging_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/19_orc_charging_loop.wav
+
+#begin DungeonSFX/20_orc_special_atk.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/20_orc_special_atk.wav
+
+#begin DungeonSFX/21_orc_damage_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/21_orc_damage_1.wav
+
+#begin DungeonSFX/21_orc_damage_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/21_orc_damage_2.wav
+
+#begin DungeonSFX/21_orc_damage_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/21_orc_damage_3.wav
+
+#begin DungeonSFX/22_orc_jump_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/22_orc_jump_1.wav
+
+#begin DungeonSFX/22_orc_jump_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/22_orc_jump_2.wav
+
+#begin DungeonSFX/23_orc_jump_land.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/23_orc_jump_land.wav
+
+#begin DungeonSFX/24_orc_death_spin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/24_orc_death_spin.wav
+
+#begin DungeonSFX/25_orc_walk_stone_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/25_orc_walk_stone_1.wav
+
+#begin DungeonSFX/25_orc_walk_stone_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/25_orc_walk_stone_2.wav
+
+#begin DungeonSFX/25_orc_walk_stone_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/25_orc_walk_stone_3.wav
+
+#begin DungeonSFX/26_sword_hit_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/26_sword_hit_1.wav
+
+#begin DungeonSFX/26_sword_hit_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/26_sword_hit_2.wav
+
+#begin DungeonSFX/26_sword_hit_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/26_sword_hit_3.wav
+
+#begin DungeonSFX/27_sword_miss_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/27_sword_miss_1.wav
+
+#begin DungeonSFX/27_sword_miss_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/27_sword_miss_2.wav
+
+#begin DungeonSFX/27_sword_miss_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:DungeonSFX/27_sword_miss_3.wav
+
+#begin Textures/EvilWizard.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -58,5 +480,44 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /processorParam:Version=3.8.5.1
-/build:Wizard.png
+/build:Textures/EvilWizard.png
+
+#begin Textures/FireballSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:Textures/FireballSheet.png
+
+#begin Textures/NoTexture.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:Textures/NoTexture.png
+
+#begin Textures/Wizard.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:Textures/Wizard.png
 

@@ -3,8 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Dungeon.Collisions;
+using Dungeon.Objects;
 
-namespace Dungeon;
+namespace Dungeon.Sprites;
 
 public class FireballSprite
 {
@@ -38,10 +39,18 @@ public class FireballSprite
             Position,
             16);
     }
+    public bool CheckCollision(Entity target)
+    {
+        if (Destroyed || !target.IsAlive || !bounds.CollidesWith(target.Sprite.HitBox))
+            return false;
+
+        Hit();
+        return true;
+    }
 
     public void LoadContent(ContentManager content)
     {
-        texture = content.Load<Texture2D>("FireballSheet");
+        texture = content.Load<Texture2D>("Textures/FireballSheet");
     }
 
     public void Update(GameTime gameTime)

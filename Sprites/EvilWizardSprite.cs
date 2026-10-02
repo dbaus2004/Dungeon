@@ -3,46 +3,41 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Dungeon.Collisions;
 
-namespace Dungeon;
+namespace Dungeon.Sprites;
 
-public class EvilWizardSprite
+public class EvilWizardSprite: ISprite
 {
     private Vector2 position;
     private Texture2D texture;
-    private BoundingRectangle bounds;
-
-    public bool Dead { get; private set; } = false;
-
-    public Vector2 Position => position;
-
-    public BoundingRectangle Bounds => bounds;
+    public Vector2 Position
+    {
+        get
+        {
+            return position;
+        }
+        set
+        {
+            position = value;
+        }
+    }
+    public Bounds HitBox
+    {
+        get
+        {
+            return new BoundingRectangle(position.X + 16, position.Y, 32, 64);
+        }
+    }
 
     public EvilWizardSprite(Vector2 position)
     {
         this.position = position;
-
-        this.bounds = new BoundingRectangle(
-            position.X + 16,
-            position.Y,
-            32,
-            64);
     }
-
     public void LoadContent(ContentManager content)
     {
-        texture = content.Load<Texture2D>("EvilWizard");
+        texture = content.Load<Texture2D>("Textures/EvilWizard");
     }
-
-    public void Hit()
-    {
-        Dead = true;
-    }
-
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
-        if (Dead)
-            return;
-
         spriteBatch.Draw(
             texture,
             position,

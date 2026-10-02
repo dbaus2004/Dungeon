@@ -1,6 +1,6 @@
 ﻿namespace Dungeon.Collisions;
 
-public class BoundingRectangle
+public class BoundingRectangle: Bounds
 {
     public float X;
     public float Y;
@@ -20,11 +20,25 @@ public class BoundingRectangle
         Height = height;
     }
 
-    public bool CollidesWith(BoundingRectangle other)
+    public override bool CollidesWith(BoundingRectangle other)
     {
-        return Left < other.Right &&
-               Right > other.Left &&
-               Top < other.Bottom &&
-               Bottom > other.Top;
+        return CollisionHelper.Collides(this, other);
+    }
+    public override bool CollidesWith(BoundingCircle other)
+    {
+        return CollisionHelper.Collides(this, other);
+    }
+    public override bool CollidesWith(Bounds other)
+    {
+        if(other.GetType() == typeof(BoundingCircle)){
+            return CollisionHelper.Collides(this, (BoundingCircle)other);
+        }
+        else if(other.GetType() == typeof(BoundingRectangle)){
+            return CollisionHelper.Collides(this, (BoundingRectangle)other);
+        }
+        else
+        {
+            return false;
+        }
     }
 }
