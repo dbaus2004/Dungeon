@@ -45,7 +45,7 @@ public class WizardSprite : ISprite
         this.position = position;
     }
 
-    public bool TryShootAt(Vector2 target, out FireballSprite fireball)
+    public bool TryShootAt(Game game, Vector2 target, out FireballSprite fireball)
     {
         Vector2 direction = target - Center;
 
@@ -55,7 +55,7 @@ public class WizardSprite : ISprite
             return false;
         }
 
-        fireball = new FireballSprite(Center, Vector2.Normalize(direction));
+        fireball = new FireballSprite(game, Center, Vector2.Normalize(direction), target);
         return true;
     }
 

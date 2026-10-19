@@ -17,6 +17,12 @@ public class DungeonGame : Game
     public DungeonGame()
     {
         _graphics = new GraphicsDeviceManager(this);
+
+        var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+        _graphics.PreferredBackBufferWidth = displayMode.Width;
+        _graphics.PreferredBackBufferHeight = displayMode.Height;
+        _graphics.IsFullScreen = true;
+
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
 
@@ -34,12 +40,19 @@ public class DungeonGame : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        _screenManager.ChangeScreen(new DemoScreen(_inputState, _screenManager),Content);
+        _screenManager.ChangeScreen(new DemoScreen(_inputState, _screenManager, _spriteBatch, GraphicsDevice, this), Content);
     }
 
     protected override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
+
+        if (_inputState.IsNewKeyPress(Keys.Escape))
+        {
+            Exit();
+            return;
+        }
+
         _screenManager.Update(gameTime);
     }
 
@@ -47,7 +60,7 @@ public class DungeonGame : Game
     {
         GraphicsDevice.Clear(Color.Black);
 
-        _spriteBatch.Begin();
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
         _screenManager.Draw(_spriteBatch);
         _spriteBatch.End();
 

@@ -1,4 +1,6 @@
-﻿namespace Dungeon.Collisions;
+﻿using Microsoft.Xna.Framework;
+
+namespace Dungeon.Collisions;
 
 public class BoundingRectangle: Bounds
 {
@@ -40,5 +42,9 @@ public class BoundingRectangle: Bounds
         {
             return false;
         }
+    }
+    public override bool CollidesWith(Vector2 other)
+    {
+         return CollisionHelper.Collides(this, other);
     }
 }

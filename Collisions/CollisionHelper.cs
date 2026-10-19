@@ -33,4 +33,12 @@ public static class CollisionHelper
     {
         return Collides(c, r);
     }
+    public static bool Collides(BoundingRectangle r, Vector2 v)
+    {
+        return v.X >= r.Left && v.X <= r.Right && v.Y >= r.Top && v.Y <= r.Bottom;
+    }
+    public static bool Collides(BoundingCircle c, Vector2 v)
+    {
+        return Vector2.DistanceSquared(c.Center, v) <= c.Radius * c.Radius;
+    }
 }

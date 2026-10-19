@@ -3,31 +3,36 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Dungeon.Collisions;
+using Dungeon.ParticleSystem;
 using Dungeon.Objects;
 
 namespace Dungeon.Sprites;
 
 public class FireballSprite
 {
+    private readonly FireballExplosion _explosion;
     private Texture2D texture;
-
     private double animationTimer;
     private short animationFrame = 0;
-
     private Vector2 velocity;
-
     private BoundingCircle bounds;
-
     public Vector2 Position;
+    public Vector2 Destination;
     public float Direction;
 
     public bool Destroyed { get; private set; }
 
     public BoundingCircle Bounds => bounds;
 
-    public FireballSprite(Vector2 position, Vector2 direction)
+    public FireballSprite(Game game, Vector2 position, Vector2 direction, Vector2 destination)
     {
+
         Position = position;
+
+        Destination = destination;
+
+        _explosion = new FireballExplosion(game, 1);
+        game.Components.Add(_explosion);
 
         velocity = direction * 300f;
 
@@ -39,14 +44,6 @@ public class FireballSprite
             Position,
             16);
     }
-    public bool CheckCollision(Entity target)
-    {
-        if (Destroyed || !target.IsAlive || !bounds.CollidesWith(target.Sprite.HitBox))
-            return false;
-
-        Hit();
-        return true;
-    }
 
     public void LoadContent(ContentManager content)
     {
@@ -55,11 +52,19 @@ public class FireballSprite
 
     public void Update(GameTime gameTime)
     {
-        float Time =
-            (float)gameTime.ElapsedGameTime.TotalSeconds;
+        float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        float distanceToTravel = velocity.Length() * elapsed;
+        Vector2 toDestination = Destination - Position;
 
-        Position += velocity * Time;
-
+        if (toDestination.Length() <= distanceToTravel)
+        {
+            Position = Destination;
+            bounds.Center = Position;
+            _explosion.PlaceEcplosion(Position);
+            Destroyed = true;
+            return;
+        }
+        Position += velocity * elapsed;
         bounds.Center = Position;
 
         animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
@@ -74,18 +79,11 @@ public class FireballSprite
             animationTimer -= 0.1;
         }
 
-        if (Position.X < 0 ||
-            Position.X > 1280 ||
-            Position.Y < 0 ||
-            Position.Y > 720)
+        if (Position.X < 0 || Position.X > 1280 ||
+            Position.Y < 0 || Position.Y > 720)
         {
             Destroyed = true;
         }
-    }
-
-    public void Hit()
-    {
-        Destroyed = true;
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

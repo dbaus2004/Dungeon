@@ -3,6 +3,12 @@ using System;
 
 namespace Dungeon.ENUM
 {
+    public enum GameState
+    {
+        FreePlay,
+        PlayerTurn,
+        EnemyTurn
+    }
     public enum Damage
     {
         Bludgeoning,

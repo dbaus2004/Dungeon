@@ -1,6 +1,7 @@
 Content created by me:
     EvilWizard
     FireballSheet
+    FireballSpark
     Wizard
     NoTexture
 

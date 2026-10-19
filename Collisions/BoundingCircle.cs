@@ -34,4 +34,8 @@ public class BoundingCircle: Bounds
             return false;
         }
     }
+    public override bool CollidesWith(Vector2 other)
+    {
+         return CollisionHelper.Collides(this, other);
+    }
 }

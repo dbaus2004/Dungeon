@@ -10,12 +10,18 @@ using Dungeon.Input;
 using Dungeon.Objects;
 using Dungeon.Sprites;
 using Dungeon.DiceClasses;
+using Dungeon.Menu;
 using System;
 
 namespace Dungeon;
 
 public class DemoScreen : GameScreen
 {
+    private readonly Game _game;
+    private readonly SpriteBatch _spriteBatch;
+    private AttackLog _attackLog;
+    private readonly GraphicsDevice _graphicsDevice;
+    private EntityDescription _entityDescription;
     private SpriteFont _attackLogFont;
     private string _latestAttackLog = "Right click for info, left click to shoot";
     private readonly ScreenManager _screenManager;
@@ -37,10 +43,19 @@ public class DemoScreen : GameScreen
     public GameTime GameTime;
 
 
-    public DemoScreen(IInputState inputState, ScreenManager screenManager)
+    public DemoScreen(
+    IInputState inputState,
+    ScreenManager screenManager,
+    SpriteBatch spriteBatch,
+    GraphicsDevice graphicsDevice,
+    Game game)
     {
+        _game = game;
         _inputState = inputState;
         _screenManager = screenManager;
+        _spriteBatch = spriteBatch;
+        _graphicsDevice = graphicsDevice;
+
         _mobs = new[] { EvilWizard, EvilWizard2, EvilWizard3 };
         _entities = new[] { Player, EvilWizard, EvilWizard2, EvilWizard3 };
     }
@@ -49,6 +64,7 @@ public class DemoScreen : GameScreen
         _content = content;
 
         _attackLogFont = content.Load<SpriteFont>("arial");
+        _attackLog = new AttackLog(_spriteBatch, _attackLogFont, _graphicsDevice);
 
         Player.Sprite.LoadContent(content);
 
@@ -65,7 +81,7 @@ public class DemoScreen : GameScreen
     }
     public override void UnloadContent()
     {
-
+        _attackLog?.Dispose();
     }
     public override void Update(GameTime gameTime)
     {
@@ -84,8 +100,13 @@ public class DemoScreen : GameScreen
                 if (entity.Sprite.HitBox is BoundingRectangle hitBox &&
                     hitBox.CollidesWith(clickBounds))
                 {
-                    _screenManager.PushScreen(
-                        new EntityDescription(entity, _inputState, _screenManager));
+                    _entityDescription = new EntityDescription(
+                        entity,
+                        _spriteBatch,
+                        _attackLogFont,
+                        _graphicsDevice);
+
+                    _entityDescription.Open();
                     return;
                 }
             }
@@ -95,80 +116,62 @@ public class DemoScreen : GameScreen
             Point mouse = _inputState.MousePosition;
             Vector2 target = new Vector2(mouse.X, mouse.Y);
 
-            if (Player.Sprite is WizardSprite wizard &&
-                wizard.TryShootAt(target, out FireballSprite fireball))
+            if (Player.Sprite is WizardSprite wizardSprite &&
+                wizardSprite.TryShootAt(_game, target, out FireballSprite fireball))
             {
                 fireball.LoadContent(_content);
                 _fireballs.Add(fireball);
                 FireBallShoot.Play();
+
+                foreach (Entity mob in _mobs)
+                {
+                    if (!mob.IsAlive || !mob.Sprite.HitBox.CollidesWith(fireball.Destination))
+                        continue;
+
+                    var attack = new AttackRoll(
+                        Player.Name,
+                        mob.Name,
+                        mob.AC,
+                        new (int, string)[] { (10, "Fireball accuracy") });
+
+                    _latestAttackLog = attack.Log;
+
+                    if (attack.IsHit)
+                    {
+                        int damageRoll = Dice.D20();
+                        uint damage = (uint)(damageRoll + 10);
+
+                        mob.TakeTrueDamage(damage);
+                        _latestAttackLog +=
+                            $" \nDamage: d20 ({damageRoll}) + 10 = {damage} true damage. " +
+                            $"\nRemaining HP: {mob.HP}.";
+
+                        if (!mob.IsAlive)
+                            Death.Play();
+                    }
+
+                    FireBallHit.Play();
+                    break;
+                }
             }
         }
-
         for (int i = _fireballs.Count - 1; i >= 0; i--)
         {
             FireballSprite fireball = _fireballs[i];
             fireball.Update(gameTime);
 
-            bool collidedWithWizard = false;
-
-            foreach (Entity mob in _mobs)
-            {
-                if (mob is not EvilWizard wizard || !fireball.CheckCollision(wizard))
-                    continue;
-
-                collidedWithWizard = true;
-
-                var attack = new AttackRoll(
-                    Player.Name,
-                    wizard.Name,
-                    wizard.AC,
-                    new (int, string)[] { (10, "Fireball accuracy") });
-
-                _latestAttackLog = attack.Log;
-
-                if (attack.IsHit)
-                {
-                    int damageRoll = Dice.D20();
-                    uint damage = (uint)(damageRoll + 10);
-
-                    wizard.TakeTrueDamage(damage);
-
-                    _latestAttackLog +=
-                        $" \nDamage: d20 ({damageRoll}) + 10 = {damage} true damage. " +
-                        $"\nRemaining HP: {wizard.HP}.";
-
-                    if (!wizard.IsAlive)
-                        Death.Play();
-                }
-
-                break;
-            }
-
             if (fireball.Destroyed)
-            {
-                if (collidedWithWizard)
-                    FireBallHit.Play();
-
                 _fireballs.RemoveAt(i);
-            }
         }
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.DrawString(
-    _attackLogFont,
-    _latestAttackLog,
-    new Vector2(10, 10),
-    Color.White,
-    0f,
-    Vector2.Zero,
-    0.7f,
-    SpriteEffects.None,
-    0f);
+        _entityDescription?.Draw(GameTime);
+        
         if (Player.IsAlive)
             Player.Sprite.Draw(GameTime, spriteBatch);
-
+        _attackLog.Draw(_latestAttackLog);
         foreach (Entity mob in _mobs)
         {
             if (mob.IsAlive)
