@@ -6,19 +6,23 @@ using Dungeon.Collisions;
 using Dungeon.Sprites;
 using Dungeon.ENUM;
 using Dungeon.DiceClasses;
-using System;
-
 
 namespace Dungeon.Objects
 {
     public class EvilWizard: Entity
     {
         public override ISprite Sprite {get; set;} = new EvilWizardSprite(new Vector2(0,0));
-        public EvilWizard(Vector2 position)
+        public EvilWizard(Vector2 position, IDiceRoller diceRoller = null)
         {
+            diceRoller ??= Dice.DefaultRoller;
+
             Name = "Evil Wizard";
-            HP = (uint)(Dice.D10() + Dice.D10()  + Dice.D10()  + Dice.D10()  + Dice.D10()  + Dice.D10()  + Dice.D10()  + Dice.D10()  + Dice.D10()  + Dice.D10());
-            Discription = "This is the arch rival of the player for the demo";
+            uint maxHP = 0;
+            for (int i = 0; i < 10; i++)
+                maxHP += (uint)diceRoller.Roll(DiceType.d10);
+            SetMaxHP(maxHP);
+
+            Description = "This is the arch rival of the player for the demo";
             PhysicalPercent = RandomHelper.Next(-90, 89);
             MagicalPercent = RandomHelper.Next(-90, 89);
             BludgeoningPercent = RandomHelper.Next(-90, 89);

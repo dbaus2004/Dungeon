@@ -18,8 +18,8 @@ namespace Dungeon.Objects
         {
             Sprite.Position = position;
             Name = "Player character";
-            HP = 10;
-            Discription = "This is the player character for the demo";
+            SetMaxHP(10);
+            Description = "This is the player character for the demo";
         }
     }
 }

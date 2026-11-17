@@ -10,37 +10,44 @@ namespace Dungeon.Sprites;
 
 public class FireballSprite
 {
-    private readonly FireballExplosion _explosion;
+    private readonly IParticleEmitter _explosion;
     private Texture2D texture;
     private double animationTimer;
     private short animationFrame = 0;
-    private Vector2 velocity;
-    private BoundingCircle bounds;
-    public Vector2 Position;
-    public Vector2 Destination;
-    public float Direction;
+    private readonly Vector2 _velocity;
+    private readonly BoundingCircle _bounds;
+    public Vector2 Position { get; private set; }
+    public Vector2 Destination { get; }
+    public float Direction { get; }
 
     public bool Destroyed { get; private set; }
 
-    public BoundingCircle Bounds => bounds;
+    public BoundingCircle Bounds => _bounds;
 
-    public FireballSprite(Game game, Vector2 position, Vector2 direction, Vector2 destination)
+    public FireballSprite(
+        IParticleEmitter explosion,
+        Vector2 position,
+        Vector2 destination
+    )
     {
+        _explosion = explosion ?? throw new ArgumentNullException(nameof(explosion));
 
         Position = position;
 
         Destination = destination;
 
-        _explosion = new FireballExplosion(game, 1);
-        game.Components.Add(_explosion);
+        Vector2 toDestination = destination - position;
+        if (toDestination.LengthSquared() == 0)
+            throw new ArgumentException("Fireball destination must differ from its starting position.", nameof(destination));
 
-        velocity = direction * 300f;
+        Vector2 direction = Vector2.Normalize(toDestination);
+        _velocity = direction * 600f;
 
         Direction = (float)Math.Atan2(
             direction.Y,
             direction.X) + MathHelper.PiOver2;
 
-        bounds = new BoundingCircle(
+        _bounds = new BoundingCircle(
             Position,
             16);
     }
@@ -52,20 +59,23 @@ public class FireballSprite
 
     public void Update(GameTime gameTime)
     {
+        if (Destroyed)
+            return;
+
         float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        float distanceToTravel = velocity.Length() * elapsed;
+        float distanceToTravel = _velocity.Length() * elapsed;
         Vector2 toDestination = Destination - Position;
 
         if (toDestination.Length() <= distanceToTravel)
         {
             Position = Destination;
-            bounds.Center = Position;
-            _explosion.PlaceEcplosion(Position);
+            _bounds.Center = Position;
+            _explosion.Emit(Position);
             Destroyed = true;
             return;
         }
-        Position += velocity * elapsed;
-        bounds.Center = Position;
+        Position += _velocity * elapsed;
+        _bounds.Center = Position;
 
         animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -79,11 +89,6 @@ public class FireballSprite
             animationTimer -= 0.1;
         }
 
-        if (Position.X < 0 || Position.X > 1280 ||
-            Position.Y < 0 || Position.Y > 720)
-        {
-            Destroyed = true;
-        }
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

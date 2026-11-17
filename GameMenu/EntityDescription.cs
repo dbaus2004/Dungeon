@@ -1,8 +1,8 @@
 
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using Dungeon.Objects;
 
 namespace Dungeon.Menu;
@@ -10,6 +10,8 @@ namespace Dungeon.Menu;
 public class EntityDescription : Menu
 {
     private readonly Entity _entity;
+    private const float Margin = 20f;
+    private const float Padding = 12f;
 
     public EntityDescription(
         Entity entity,
@@ -30,18 +32,25 @@ public class EntityDescription : Menu
     protected override void DrawContent(GameTime gameTime)
     {
         Viewport viewport = GraphicsDevice.Viewport;
-        float scale = viewport.Height < 800 ? 0.75f : 0.9f;
+        const float scale = 1f;
         float columnWidth = Math.Min(480f, viewport.Width * 0.42f);
-        float x = viewport.Width - columnWidth - 32f;
-        float y = 40f;
+        float x = viewport.Width - columnWidth - Margin - Padding;
+        float y = Margin + Padding;
 
         y = DrawWrappedText(_entity.Name, x, y, columnWidth, scale, Color.Gold);
         y += 8f;
 
-        y = DrawWrappedText(_entity.Discription, x, y, columnWidth, scale, Color.LightGray);
+        y = DrawWrappedText(_entity.Description, x, y, columnWidth, scale, Color.LightGray);
         y += 12f;
 
-        y = DrawWrappedText($"HP: {_entity.HP}", x, y, columnWidth, scale, Color.White);
+        y = DrawWrappedText(
+            $"HP: {_entity.HP}/{_entity.MaxHP}",
+            x,
+            y,
+            columnWidth,
+            scale,
+            Color.White
+        );
         y += 16f;
 
         y = DrawWrappedText("Resistances", x, y, columnWidth, scale, Color.Gold);
@@ -50,7 +59,7 @@ public class EntityDescription : Menu
         string[] resistances =
         {
         $"Physical: {_entity.PhysicalPercent}%",
-        $"Physical: {_entity.MagicalPercent}%",
+        $"Magical: {_entity.MagicalPercent}%",
         $"Bludgeoning: {_entity.Bludgeoning} ({_entity.BludgeoningPercent}%)",
         $"Piercing: {_entity.Piercing} ({_entity.PiercingPercent}%)",
         $"Slashing: {_entity.Slashing} ({_entity.SlashingPercent}%)",
@@ -82,7 +91,8 @@ public class EntityDescription : Menu
 
             if (line.Length > 0 && Font.MeasureString(candidate).X * scale > maxWidth)
             {
-                DrawReadableLine(line, x, y, scale, color);
+                float lineX = x + maxWidth - Font.MeasureString(line).X * scale;
+                DrawReadableLine(line, lineX, y, scale, color);
                 y += lineHeight;
                 line = word;
             }
@@ -94,7 +104,8 @@ public class EntityDescription : Menu
 
         if (line.Length > 0)
         {
-            DrawReadableLine(line, x, y, scale, color);
+            float lineX = x + maxWidth - Font.MeasureString(line).X * scale;
+            DrawReadableLine(line, lineX, y, scale, color);
             y += lineHeight;
         }
 
@@ -114,21 +125,4 @@ public class EntityDescription : Menu
             0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
     }
 
-    private void DrawScaledString(
-        string text,
-        Vector2 position,
-        Color color,
-        float scale)
-    {
-        SpriteBatch.DrawString(
-            Font,
-            text,
-            position,
-            color,
-            0f,
-            Vector2.Zero,
-            scale,
-            SpriteEffects.None,
-            0f);
-    }
 }

@@ -1,8 +1,4 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Dungeon.Collisions;
 using Dungeon.Sprites;
 using Dungeon.ENUM;
 using System;
@@ -13,14 +9,32 @@ namespace Dungeon.Objects
     {
         public bool IsAlive => HP > 0;
 
-        public void TakeTrueDamage(uint damage)
+        public uint MaxHP { get; private set; } = 1;
+        public uint HP { get; private set; } = 1;
+
+        protected void SetMaxHP(uint maxHP)
+        {
+            if (maxHP == 0)
+                throw new ArgumentOutOfRangeException(nameof(maxHP), "Maximum HP must be greater than zero.");
+
+            MaxHP = maxHP;
+            HP = maxHP;
+        }
+
+        public void TakeDamage(uint damage)
         {
             HP = damage >= HP ? 0 : HP - damage;
         }
+
+        public void RestoreHealth(uint amount)
+        {
+            uint missingHealth = MaxHP - HP;
+            HP += Math.Min(amount, missingHealth);
+        }
+
         public virtual ISprite Sprite { get; set; } = new NoSprite(new Vector2(0, 0));
         public virtual string Name { get; set; } = "Nameless";
-        public virtual string Discription { get; set; } = "This object is beyond description";
-        public virtual uint HP { get; set; } = 1;
+        public virtual string Description { get; set; } = "This object is beyond description";
         public virtual int AC {get; set;}
         public virtual DamageResistanceLevel Normal { get; set; } = DamageResistanceLevel.Normal;
         public virtual DamageResistanceLevel Magical { get; set; } = DamageResistanceLevel.Normal;

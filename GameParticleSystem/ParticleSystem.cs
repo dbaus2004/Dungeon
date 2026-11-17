@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
@@ -35,41 +34,30 @@ namespace Dungeon.ParticleSystem
 
         #endregion
 
-        #region static fields
-
-        /// <summary>
-        /// A SpriteBatch to share amongst the various particle systems
-        /// </summary>
-        protected static SpriteBatch spriteBatch;
-
-        /// <summary>
-        /// A ContentManager to share amongst the various particle systems
-        /// </summary>
-        protected static ContentManager contentManager;
-
-        #endregion
-
         #region private fields
 
         /// <summary>
         /// The collection of particles 
         /// </summary>
-        Particle[] particles;
+        private readonly Particle[] particles;
 
         /// <summary>
         /// A Queue containing indices of unused particles in the Particles array
         /// </summary>
-        Queue<int> freeParticles;
+        private readonly Queue<int> freeParticles;
 
         /// <summary>
         /// The texture this particle system uses 
         /// </summary>
-        Texture2D texture;
+        private Texture2D texture;
 
         /// <summary>
         /// The origin when we're drawing textures 
         /// </summary>
-        Vector2 origin;
+        private Vector2 origin;
+
+        private readonly SpriteBatch _spriteBatch;
+        private readonly ContentManager _contentManager;
 
         #endregion
 
@@ -102,8 +90,21 @@ namespace Dungeon.ParticleSystem
         /// Constructs a new instance of a particle system
         /// </summary>
         /// <param name="game"></param>
-        public ParticleSystem(Game game, int maxParticles) : base(game)
+        public ParticleSystem(
+            Game game,
+            int maxParticles,
+            SpriteBatch spriteBatch,
+            ContentManager contentManager
+        ) : base(game)
         {
+            ArgumentNullException.ThrowIfNull(spriteBatch);
+            ArgumentNullException.ThrowIfNull(contentManager);
+            if (maxParticles <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxParticles));
+
+            _spriteBatch = spriteBatch;
+            _contentManager = contentManager;
+
             // Create our particles
             particles = new Particle[maxParticles];
             freeParticles = new Queue<int>(maxParticles);
@@ -169,29 +170,24 @@ namespace Dungeon.ParticleSystem
         /// <throws>A InvalidOperationException if the texture filename is not provided</throws>
         protected override void LoadContent()
         {
-            // create the shared static ContentManager and SpriteBatch,
-            // if this hasn't already been done by another particle engine
-            if (contentManager == null) contentManager = new ContentManager(Game.Services, "Content");
-            if (spriteBatch == null) spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+            EnsureContentLoaded();
+            base.LoadContent();
+        }
 
-            // make sure sub classes properly set textureFilename.
+        public void EnsureContentLoaded()
+        {
+            if (texture != null)
+                return;
+
             if (string.IsNullOrEmpty(textureFilename))
             {
-                string message = "textureFilename wasn't set properly, so the " +
-                    "particle system doesn't know what texture to load. Make " +
-                    "sure your particle system's InitializeConstants function " +
-                    "properly sets textureFilename.";
-                throw new InvalidOperationException(message);
+                throw new InvalidOperationException(
+                    "The particle system must set a texture filename before loading content."
+                );
             }
-            // load the texture....
-            texture = contentManager.Load<Texture2D>(textureFilename);
 
-            // ... and calculate the center. this'll be used in the draw call, we
-            // always want to rotate and scale around this point.
-            origin.X = texture.Width / 2;
-            origin.Y = texture.Height / 2;
-
-            base.LoadContent();
+            texture = _contentManager.Load<Texture2D>(textureFilename);
+            origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
         }
 
         /// <summary>
@@ -230,9 +226,10 @@ namespace Dungeon.ParticleSystem
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            // tell sprite batch to begin, using the spriteBlendMode specified in
-            // initializeConstants
-            spriteBatch.Begin(blendState: blendState);
+            if (texture == null)
+                throw new InvalidOperationException("Call EnsureContentLoaded before drawing the particle system.");
+
+            _spriteBatch.Begin(blendState: blendState);
 
             foreach (Particle p in particles)
             {
@@ -240,11 +237,11 @@ namespace Dungeon.ParticleSystem
                 if (!p.Active)
                     continue;
 
-                spriteBatch.Draw(texture, p.Position, null, p.Color,
+                _spriteBatch.Draw(texture, p.Position, null, p.Color,
                     p.Rotation, origin, p.Scale, SpriteEffects.None, 0.0f);
             }
 
-            spriteBatch.End();
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

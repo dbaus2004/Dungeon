@@ -40,14 +40,17 @@ public class DungeonGame : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        _screenManager.ChangeScreen(new DemoScreen(_inputState, _screenManager, _spriteBatch, GraphicsDevice, this), Content);
+        _screenManager.ChangeScreen(
+            new DemoScreen(_inputState, _spriteBatch, GraphicsDevice, this),
+            Content
+        );
     }
 
     protected override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
 
-        if (_inputState.IsNewKeyPress(Keys.Escape))
+        if (_inputState.IsNewKeyPress(Keys.Escape) && !_screenManager.HandleCancel())
         {
             Exit();
             return;
@@ -65,5 +68,9 @@ public class DungeonGame : Game
         _spriteBatch.End();
 
         base.Draw(gameTime);
+
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        _screenManager.DrawOverlay(_spriteBatch);
+        _spriteBatch.End();
     }
 }

@@ -1,17 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Dungeon.ParticleSystem;
 
-public class FireballExplosion : ParticleSystem
+public class FireballExplosion : ParticleSystem, IParticleEmitter
 {
-    public FireballExplosion(Game game, int maxExplosions) : base(game, maxExplosions * 25)
+    public FireballExplosion(
+        Game game,
+        int maxExplosions,
+        SpriteBatch spriteBatch,
+        ContentManager contentManager
+    ) : base(game, maxExplosions * 25, spriteBatch, contentManager)
     {
-        
     }
+
     protected override void InitializeConstants()
     {
         textureFilename = "Textures/FireBallSpark";
@@ -47,5 +50,5 @@ public class FireballExplosion : ParticleSystem
         particle.Scale = 2f + .25f * normalizedLifetime;
     }
 
-    public void PlaceEcplosion(Vector2 where) => AddParticles(where);
+    public void Emit(Vector2 position) => AddParticles(position);
 }

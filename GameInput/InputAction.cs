@@ -1,6 +1,7 @@
 // Adapted from the Game State Management sample from Microsoft XNA Game Studio 4.0
 // Archived at https://github.com/SimonDarksideJ/GameStateManagementSample
 
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -22,35 +23,19 @@ public class InputAction
     private readonly Keys[] _keys;
     private readonly bool _firstPressOnly;
 
-
-    // Delegate types for button and key press checks, used to simplfy the Occured method
     private delegate bool ButtonPress(Buttons button, PlayerIndex? controllingPlayer, out PlayerIndex playerIndex);
     private delegate bool KeyPress(Keys key);
 
-
-    /// <summary>
-    /// Initializes a new instance of the InputAction class with the specified trigger buttons, trigger keys, and first press only flag.
-    /// </summary>
-    /// <param name="triggerButtons">The buttons that trigger the action</param>
-    /// <param name="triggerKeys">The keys that trigger the action</param>
-    /// <param name="firstPressOnly">Indicates if the action should only occur on the first press</param>
-    public InputAction(Buttons[] triggerButtons, Keys[] triggerKeys, bool firstPressOnly)
+    public InputAction(
+        Buttons[] triggerButtons,
+        Keys[] triggerKeys,
+        bool firstPressOnly,
+        bool leftMouseButton = false,
+        bool rightMouseButton = false
+    )
     {
-        _buttons = triggerButtons != null ? triggerButtons.Clone() as Buttons[] : new Buttons[0];
-        _keys = triggerKeys != null ? triggerKeys.Clone() as Keys[] : new Keys[0];
-        _firstPressOnly = firstPressOnly;
-    }
-    public InputAction(Buttons[] triggerButtons, Keys[] triggerKeys, bool firstPressOnly, bool leftMouseButton = false)
-    {
-        _buttons = triggerButtons != null ? triggerButtons.Clone() as Buttons[] : new Buttons[0];
-        _keys = triggerKeys != null ? triggerKeys.Clone() as Keys[] : new Keys[0];
-        _firstPressOnly = firstPressOnly;
-        _leftMouseButton = leftMouseButton;
-    }
-    public InputAction(Buttons[] triggerButtons, Keys[] triggerKeys, bool firstPressOnly, bool leftMouseButton = false, bool rightMouseButton = false)
-    {
-        _buttons = triggerButtons != null ? triggerButtons.Clone() as Buttons[] : new Buttons[0];
-        _keys = triggerKeys != null ? triggerKeys.Clone() as Keys[] : new Keys[0];
+        _buttons = triggerButtons is null ? Array.Empty<Buttons>() : (Buttons[])triggerButtons.Clone();
+        _keys = triggerKeys is null ? Array.Empty<Keys>() : (Keys[])triggerKeys.Clone();
         _firstPressOnly = firstPressOnly;
         _leftMouseButton = leftMouseButton;
         _rightMouseButton = rightMouseButton;
@@ -63,45 +48,34 @@ public class InputAction
     /// <param name="controllingPlayer">The player who is controlling the input</param>
     /// <param name="playerIndex">The index of the player who triggered the input</param>
     /// <returns>True if the input action has occurred, false otherwise</returns>
-    public bool Occured(IInputState inputState, PlayerIndex? controllingPlayer, out PlayerIndex playerIndex)
+    public bool Occurred(IInputState inputState, PlayerIndex? controllingPlayer, out PlayerIndex playerIndex)
     {
-        ButtonPress buttonTest;
-        KeyPress keyTest;
+        ButtonPress buttonTest = _firstPressOnly
+            ? inputState.IsNewButtonPress
+            : inputState.IsButtonPressed;
+        KeyPress keyTest = _firstPressOnly
+            ? inputState.IsNewKeyPress
+            : inputState.IsKeyPressed;
 
-        bool mouseAction = (_leftMouseButton && (_firstPressOnly? 
-        inputState.IsNewLeftMouseButtonPress(): inputState.IsLeftMouseButtonPressed()))
-         || (_rightMouseButton &&(_firstPressOnly? inputState.IsNewRightMouseButtonPress():
-          inputState.IsRightMouseButtonPressed()));
+        bool leftMousePressed = _firstPressOnly
+            ? inputState.IsNewLeftMouseButtonPress()
+            : inputState.IsLeftMouseButtonPressed();
+        bool rightMousePressed = _firstPressOnly
+            ? inputState.IsNewRightMouseButtonPress()
+            : inputState.IsRightMouseButtonPressed();
 
-        if (mouseAction)
+        if ((_leftMouseButton && leftMousePressed) || (_rightMouseButton && rightMousePressed))
         {
             playerIndex = PlayerIndex.One;
             return true;
         }
 
-        if (_firstPressOnly)
-        {
-            buttonTest = inputState.IsNewButtonPress;
-            keyTest = inputState.IsNewKeyPress;
-
-        }
-        if (_leftMouseButton && (_firstPressOnly ? inputState.IsNewLeftMouseButtonPress() : inputState.IsLeftMouseButtonPressed()))
-        {
-            playerIndex = PlayerIndex.One;
-            return true;
-        }
-        else
-        {
-            buttonTest = inputState.IsButtonPressed;
-            keyTest = inputState.IsKeyPressed;
-        }
-
-        foreach (var button in _buttons)
+        foreach (Buttons button in _buttons)
         {
             if (buttonTest(button, controllingPlayer, out playerIndex))
                 return true;
         }
-        foreach (var key in _keys)
+        foreach (Keys key in _keys)
         {
             if (keyTest(key))
             {

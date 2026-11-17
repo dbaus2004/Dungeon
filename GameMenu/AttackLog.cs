@@ -9,7 +9,7 @@ public sealed class AttackLog : IDisposable
 {
     private const float Margin = 20f;
     private const float Padding = 12f;
-    private const float Scale = 0.7f;
+    private const float Scale = 1.0f;
 
     private readonly SpriteBatch _spriteBatch;
     private readonly SpriteFont _font;

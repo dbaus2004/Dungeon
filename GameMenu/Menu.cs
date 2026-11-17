@@ -9,9 +9,9 @@ namespace Dungeon.Menu
     {
         public bool IsOpen { get; private set; }
 
-        protected SpriteBatch SpriteBatch;
-        protected SpriteFont Font;
-        protected GraphicsDevice GraphicsDevice;
+        protected readonly SpriteBatch SpriteBatch;
+        protected readonly SpriteFont Font;
+        protected readonly GraphicsDevice GraphicsDevice;
 
         protected Menu(
             SpriteBatch spriteBatch,
@@ -22,17 +22,6 @@ namespace Dungeon.Menu
             Font = font;
             GraphicsDevice = graphicsDevice;
         }
-        protected Menu(
-            SpriteBatch spriteBatch,
-            SpriteFont font,
-            Texture2D pixel,
-            GraphicsDevice graphicsDevice)
-        {
-            SpriteBatch = spriteBatch;
-            Font = font;
-            GraphicsDevice = graphicsDevice;
-        }
-
         public void Open()
         {
             IsOpen = true;
